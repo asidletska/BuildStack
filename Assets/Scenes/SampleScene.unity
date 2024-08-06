@@ -321,8 +321,9 @@ GameObject:
   - component: {fileID: 1053863279}
   - component: {fileID: 1053863278}
   - component: {fileID: 1053863277}
+  - component: {fileID: 1053863281}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -414,6 +415,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1053863281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053863276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 710607246f17a074986894a52bbe7d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+--- !u!1 &1186985602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1186985604}
+  - component: {fileID: 1186985603}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1186985603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186985602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae412c3e5ef52a458697a7e7674eba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1186985604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186985602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1663714392793378389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -432,11 +490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4672935005500543529, guid: 6f6f96d3441ed8d44a258e1b2f73ece9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.55
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 4672935005500543529, guid: 6f6f96d3441ed8d44a258e1b2f73ece9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.29
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4672935005500543529, guid: 6f6f96d3441ed8d44a258e1b2f73ece9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -479,3 +537,4 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 1053863280}
   - {fileID: 1663714392793378389}
+  - {fileID: 1186985604}
