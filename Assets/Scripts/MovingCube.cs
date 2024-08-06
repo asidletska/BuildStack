@@ -6,6 +6,7 @@ public class MovingCube : MonoBehaviour
 {
     public static MovingCube CurrentCube {  get; private set; }
     public static MovingCube LastCube { get; private set; }
+    public MoveDirection MoveDirection { get; set; }
 
     [SerializeField]
     private float moveSpeed = 1f;
@@ -19,7 +20,7 @@ public class MovingCube : MonoBehaviour
         CurrentCube = this;
 
         GetComponent<Renderer>().material.color = GetRandomColor();
-        transform.localScale = new Vector3(LastCube.transform.localScale.x, LastCube.transform.localScale.y, LastCube.transform.localScale.z);
+        transform.localScale = new Vector3(LastCube.transform.localScale.x, transform.localScale.y, LastCube.transform.localScale.z);
         
     }
 
@@ -31,9 +32,9 @@ public class MovingCube : MonoBehaviour
     internal void Stop()
     {
         moveSpeed = 0f;
-        float hangover = transform.position.z - LastCube.transform.position.z;
-
-        if(Mathf.Abs(hangover) >= LastCube.transform.localScale.z)
+        float hangover = GetHangover();
+        float max = MoveDirection == MoveDirection.Z ? LastCube.transform.localScale.z : LastCube.transform.localScale.x;
+        if(Mathf.Abs(hangover) >= max)
         {
             LastCube = null;
             CurrentCube = null;
@@ -41,10 +42,42 @@ public class MovingCube : MonoBehaviour
         }
 
         float direction = hangover > 0 ? 1f : -1f;
-        SplitCubeOnZ(hangover, direction);
 
+        if (MoveDirection == MoveDirection.Z)
+        {
+            SplitCubeOnZ(hangover, direction);
+        }
+        else
+        {
+            SplitCubeOnX(hangover, direction);
+        }
         LastCube = this;
         //Debug.Log(hangover);
+    }
+    private float GetHangover()
+    {
+        if(MoveDirection == MoveDirection.Z)
+        {
+            return transform.position.z - LastCube.transform.position.z;
+        }
+        else
+        {
+            return transform.position.x - LastCube.transform.position.x;
+        }
+    }
+    private void SplitCubeOnX(float hangover, float direction)
+    {
+        float newXSize = LastCube.transform.lossyScale.x - Mathf.Abs(hangover);
+        float fallingBlockXSize = transform.lossyScale.x - newXSize;
+
+        float newXPosition = LastCube.transform.position.x + (hangover / 2);
+        transform.localScale = new Vector3(newXSize, transform.localScale.y, transform.localScale.z);
+        transform.position = new Vector3(newXPosition, transform.position.y, transform.position.z);
+
+        float cubeEdge = transform.position.x + (newXSize / 2f * direction);
+        float fallingBlockXPosition = cubeEdge + fallingBlockXSize / 2f * direction;
+
+        SpawnDropCube(fallingBlockXPosition, fallingBlockXSize);
     }
 
     private void SplitCubeOnZ(float hangover, float direction)
@@ -65,8 +98,17 @@ public class MovingCube : MonoBehaviour
     private void SpawnDropCube(float fallingBlockZPosition, float fallingBlockSize)
     {
         var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, fallingBlockSize);
-        cube.transform.position = new Vector3(transform.position.x, transform.position.y, fallingBlockZPosition);
+
+        if (MoveDirection == MoveDirection.Z)
+        {
+            cube.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, fallingBlockSize);
+            cube.transform.position = new Vector3(transform.position.x, transform.position.y, fallingBlockZPosition);
+        }
+        else
+        {
+            cube.transform.localScale = new Vector3(fallingBlockSize, transform.localScale.y, transform.localScale.z);
+            cube.transform.position = new Vector3(fallingBlockZPosition, transform.position.y, transform.position.z);
+        }
 
         cube.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
         cube.AddComponent<Rigidbody>();
@@ -76,7 +118,10 @@ public class MovingCube : MonoBehaviour
 
     private void Update()
     {
-        transform.position += transform.forward * Time.deltaTime * moveSpeed;
+        if (MoveDirection == MoveDirection.Z)
+            transform.position += transform.forward * Time.deltaTime * moveSpeed;
+        else
+        transform.position += transform.right * Time.deltaTime * moveSpeed;
     }
      
 }
